@@ -234,3 +234,22 @@
     --ion-card-background: #1e1e1e;
   }
 }
+.home-header {
+  --ion-toolbar-background: #4addaf;
+}
+.menu-header {
+  --ion-toolbar-background: linear-gradient(to right,#3076b0, #2679bd);
+  padding: 40px 10px;
+  color: #ffffff;
+  font-size: 15px;
+}
+.icons {
+  color: #2679bd;
+}
+.menubar ion-item:hover {
+  color: #2679bd;
+  ion-icon {
+    color: #2679bd;
+  }
+  --ion-item-background: #f1e9e9;
+}
