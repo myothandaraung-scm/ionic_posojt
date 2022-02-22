@@ -41,7 +41,16 @@
           <small class="error-message">{{error.message}}</small>
         </ng-container>  
       </div>
-  
+
+      <ion-item lines="none">
+        <ion-label position="stacked">Confirm Password</ion-label>
+        <ion-input type="password" formControlName="confirmPassword" name="confirmPassword" required></ion-input>
+      </ion-item>
+      <div *ngFor=" let error of errorMessages.confirmPassword ">
+        <ng-container *ngIf=" confirmPassword.hasError(error.type) && (confirmPassword.dirty || confirmPassword.touched) ">
+          <small class="error-message">{{error.message}}</small>
+        </ng-container>  
+      </div>
 
       <ion-item lines="none">
         <ion-label position="stacked">Phone</ion-label>

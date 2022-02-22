@@ -20,6 +20,9 @@ export class RegisterPage implements OnInit {
   get password() {
     return this.RegisterForm.get('password');
   }
+  get confirmPassword() {
+    return this.RegisterForm.get('confirmPassword');
+  }
   get gender() {
     return this.RegisterForm.get('gender');
   }
@@ -43,6 +46,10 @@ export class RegisterPage implements OnInit {
       { type: 'minlength', message: 'Password can be longer than 6 characters' },
       { type: 'maxlength', message: 'Password cannot be longer than 15 characters' },
     ],
+    confirmPassword: [
+      { type: 'required', message: 'Confirm Password is required' },
+      { type: 'mustMatch', message: 'Confirm password is not same' },
+    ],
     phone: [
       { type: 'required', message: 'Phone is required' },
       { type: 'pattern', message: 'Please enter valid phone' },
@@ -60,22 +67,35 @@ export class RegisterPage implements OnInit {
     name: ['', [Validators.required, Validators.maxLength(20)]],
     email: ['', [Validators.required, Validators.pattern(this.PAT_EMAIL)]],
     password: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(15)]],
+    confirmPassword: ['',Validators.required],
     phone: ['', [Validators.required, Validators.pattern("^[0-9]+$")]],
     gender: ['', Validators.required],
     address: ['', [Validators.required, Validators.maxLength(30)]],
 
+  },{
+    validators: this.mustMatch('password','confirmPassword')
   })
+  mustMatch(controlName:string, matchingControlName: string) {
+    console.log('mustmatch')
 
+    return (formgroup: FormGroup)=>{
+      console.log(formgroup.controls[matchingControlName])
+      const control = formgroup.controls[controlName]
+      const matchingControl = formgroup.controls[matchingControlName]
+      if(matchingControl.errors &&  !matchingControl.errors.MustMatch) {
+        return
+      }
+      if(control.value !== matchingControl.value){
+        matchingControl.setErrors({mustMatch:true})
+      }
+      else{
+        matchingControl.setErrors(null)
+      }
+    }
+  }
 
   constructor(private router: Router, private formbuilder: FormBuilder) {
-    this.user = {
-      name: '',
-      email: '',
-      password: '',
-      gender: '',
-      address: '',
-      phone: ''
-    }
+
   }
 
   onSubmit() {
